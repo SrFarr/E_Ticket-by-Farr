@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">E_TicketPesawat_UTS</string>
+    <string name="title_activity_nav_graph">NavGraph</string>
+    <string name="title_activity_login_screen">LoginScreen</string>
+    <string name="title_activity_register_screen">RegisterScreen</string>
+    <string name="title_activity_admin_home_screen">AdminHomeScreen</string>
+    <string name="title_activity_admin_transportasi">AdminTransportasi</string>
+    <string name="title_activity_user_home_screen">UserHomeScreen</string>
+    <string name="title_activity_user_pesawat_screen">UserPesawatScreen</string>
+    <string name="title_activity_user_detail_pesawat_ui">UserDetailPesawatUi</string>
+    <string name="title_activity_detail_booking_screen">DetailBookingScreen</string>
+    <string name="title_activity_user_history_booking_screen">UserHistoryBookingScreen</string>
+    <string name="title_activity_user_kereta_screen">UserKeretaScreen</string>
+    <string name="title_activity_user_detail_kereta_screen">UserDetailKeretaScreen</string>
+</resources>

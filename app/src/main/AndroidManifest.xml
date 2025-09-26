@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.E_TicketPesawat_UTS">
+        <activity
+            android:name=".ui.screen.ui.UserScreen.UserDetailKeretaScreen"
+            android:exported="false"
+            android:label="@string/title_activity_user_detail_kereta_screen"
+            android:theme="@style/Theme.E_TicketPesawat_UTS" />
+        <activity
+            android:name=".ui.screen.ui.UserScreen.UserKeretaScreen"
+            android:exported="false"
+            android:label="@string/title_activity_user_kereta_screen"
+            android:theme="@style/Theme.E_TicketPesawat_UTS" />
+        <activity
+            android:name=".ui.screen.ui.UserScreen.UserHistoryBookingScreen"
+            android:exported="false"
+            android:label="@string/title_activity_user_history_booking_screen"
+            android:theme="@style/Theme.E_TicketPesawat_UTS" />
+        <activity
+            android:name=".ui.screen.ui.UserScreen.DetailBookingScreen"
+            android:exported="false"
+            android:label="@string/title_activity_detail_booking_screen"
+            android:theme="@style/Theme.E_TicketPesawat_UTS" />
+        <activity
+            android:name=".ui.screen.ui.UserScreen.UserDetailPesawatUi"
+            android:exported="false"
+            android:label="@string/title_activity_user_detail_pesawat_ui"
+            android:theme="@style/Theme.E_TicketPesawat_UTS" />
+        <activity
+            android:name=".ui.screen.ui.UserScreen.UserPesawatScreen"
+            android:exported="false"
+            android:label="@string/title_activity_user_pesawat_screen"
+            android:theme="@style/Theme.E_TicketPesawat_UTS" />
+        <activity
+            android:name=".ui.screen.ui.UserScreen.UserHomeScreen"
+            android:exported="false"
+            android:label="@string/title_activity_user_home_screen"
+            android:theme="@style/Theme.E_TicketPesawat_UTS" />
+        <activity
+            android:name=".ui.screen.ui.AdminScreen.AdminTransportasi"
+            android:exported="false"
+            android:label="@string/title_activity_admin_transportasi"
+            android:theme="@style/Theme.E_TicketPesawat_UTS" />
+        <activity
+            android:name=".ui.screen.ui.AdminScreen.AdminHomeScreen"
+            android:exported="false"
+            android:label="@string/title_activity_admin_home_screen"
+            android:theme="@style/Theme.E_TicketPesawat_UTS" />
+        <activity
+            android:name=".ui.screen.RegisterScreen"
+            android:exported="false"
+            android:label="@string/title_activity_register_screen"
+            android:theme="@style/Theme.E_TicketPesawat_UTS" />
+        <activity
+            android:name=".ui.screen.LoginScreen"
+            android:exported="false"
+            android:label="@string/title_activity_login_screen"
+            android:theme="@style/Theme.E_TicketPesawat_UTS" />
+        <activity
+            android:name=".navigation.NavGraph"
+            android:exported="false"
+            android:label="@string/title_activity_nav_graph"
+            android:theme="@style/Theme.E_TicketPesawat_UTS" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.E_TicketPesawat_UTS">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
