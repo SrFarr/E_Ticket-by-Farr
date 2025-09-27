@@ -68,6 +68,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tiket.R
+import com.tiket.local.entity.User
 import com.tiket.viewmodel.AuthState
 import com.tiket.viewmodel.AuthVm
 
@@ -84,6 +85,9 @@ fun RegisterUi(modif: Modifier = Modifier, vm: AuthVm, onGoToLogin: () -> Unit =
     val context = LocalContext.current
     val state by vm.authState.collectAsState()
 
+
+
+
     LaunchedEffect(state) {
         when(state){
             is AuthState.Error -> {
@@ -97,6 +101,9 @@ fun RegisterUi(modif: Modifier = Modifier, vm: AuthVm, onGoToLogin: () -> Unit =
             }
         }
     }
+
+
+
     Scaffold(
         topBar = {
             TopAppBar(

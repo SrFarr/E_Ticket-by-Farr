@@ -81,6 +81,30 @@ fun LoginUi(modif: Modifier = Modifier, vm: AuthVm, onLoginAsAdmin: (User) -> Un
     val context = LocalContext.current
     val state by vm.authState.collectAsState()
 
+    val dummyUsers = listOf(
+        User(
+            id = 0,
+            username = "Admin",
+            email = "admin@gmail.com",
+            password = "admin123",
+            isAdmin = true
+        ),
+        User(
+            id = 0,
+            username = "user",
+            email = "user@gmail.com",
+            password = "user123",
+            isAdmin = false
+        )
+    )
+
+
+    LaunchedEffect(Unit) {
+        dummyUsers.forEach { user ->
+            vm.register(user.email, user.username, user.password, user.isAdmin)
+        }
+    }
+
     LaunchedEffect(state) {
         when(state){
             is AuthState.LoggedIn -> {
