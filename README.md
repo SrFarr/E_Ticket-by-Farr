@@ -2,10 +2,10 @@
 
 
 <h2>Dummy Admin</h2>
-email: admin@gmail.com
+email: admin@gmail.com <br>
 password: admin123
 
 <h2>Dummy User</h2>
-email: user@gmail.com
+email: user@gmail.com <br>
 password: user123
 
