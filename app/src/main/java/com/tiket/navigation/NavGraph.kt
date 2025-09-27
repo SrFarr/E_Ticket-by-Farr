@@ -1,6 +1,5 @@
 package com.tiket.navigation
 
-import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -15,23 +14,26 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.tiket.local.entity.Transaksi
-import com.tiket.local.entity.Transportasi
 import com.tiket.ui.screen.*
+import com.tiket.ui.screen.ui.AdminScreen.AdminTransaksiUi
+import com.tiket.ui.screen.ui.AdminScreen.AdminUserUi
 import com.tiket.ui.screen.ui.UserScreen.*
 import com.tiket.viewmodel.*
 
 object Routes {
     const val LOGIN = "login"
     const val REGISTER = "register"
-    const val ADMIN_HOME = "admin_home/{userId}/{username}"
+    const val ADMIN_HOME = "admin_home"
     const val USER_HOME = "user_home/{userId}/{username}"
-    const val ADMIN_TRANSPORT = "adminTransport/{userId}/{username}"
-    const val LIST_PESAWAT = "listPesawat/{userId}"
-    const val DETAIL_PESAWAT = "detailPesawat/{pesawatId}/{userId}"
-    const val DETAIL_BOOKING = "detailBooking/{transaksiId}/{transportId}/{userId}/{jumlah}/{totalHarga}"
+    const val ADMIN_TRANSPORT = "admin_transport"
+    const val ADMIN_USER = "admin_user"
+    const val ADMIN_TRANSAKSI = "admin_transaksi"
+    const val LIST_PESAWAT = "list_pesawat/{userId}"
+    const val DETAIL_PESAWAT = "detail_pesawat/{pesawatId}/{userId}"
+    const val DETAIL_BOOKING = "detail_booking/{transaksiId}/{transportId}/{userId}/{jumlah}/{totalHarga}"
     const val USER_HISTORY = "user_history/{userId}"
-    const val LIST_KERETA = "listKereta/{userId}"
-    const val DETAIL_KERETA = "detailKereta/{keretaId}/{userId}"
+    const val LIST_KERETA = "list_kereta/{userId}"
+    const val DETAIL_KERETA = "detail_kereta/{keretaId}/{userId}"
 }
 
 @Composable
@@ -51,8 +53,7 @@ fun AppNavHost(nc: NavHostController) {
             LoginUi(
                 vm = authVm,
                 onLoginAsAdmin = { user ->
-                    val route = "admin_home/${user.id}/${user.username}"
-                    nc.navigate(route) {
+                    nc.navigate(Routes.ADMIN_HOME) {
                         popUpTo(Routes.LOGIN) { inclusive = true }
                     }
                 },
@@ -78,21 +79,18 @@ fun AppNavHost(nc: NavHostController) {
             )
         }
 
-        // ---------------- ADMIN HOME ----------------
-        composable(
-            route = Routes.ADMIN_HOME,
-            arguments = listOf(
-                navArgument("userId") { type = NavType.IntType },
-                navArgument("username") { type = NavType.StringType }
-            )
-        ) { backStackEntry ->
-            val userId = backStackEntry.arguments?.getInt("userId") ?: 0
-            val username = backStackEntry.arguments?.getString("username") ?: ""
-
+        // ---------------- ADMIN HOME (SIMPLE) ----------------
+        composable(Routes.ADMIN_HOME) {
             AdminHomeUI(
                 context = context,
                 onTransportasiClick = {
-                    nc.navigate("adminTransport/$userId/$username")
+                    nc.navigate(Routes.ADMIN_TRANSPORT)
+                },
+                onUsersClick = {
+                    nc.navigate(Routes.ADMIN_USER)
+                },
+                onTransaksiClick = {
+                    nc.navigate(Routes.ADMIN_TRANSAKSI)
                 },
                 onLogoutClick = {
                     authVm.logout()
@@ -103,29 +101,40 @@ fun AppNavHost(nc: NavHostController) {
             )
         }
 
-        // ---------------- ADMIN TRANSPORT ----------------
-        composable(
-            route = Routes.ADMIN_TRANSPORT,
-            arguments = listOf(
-                navArgument("userId") { type = NavType.IntType },
-                navArgument("username") { type = NavType.StringType }
-            )
-        ) { backStackEntry ->
-            val userId = backStackEntry.arguments?.getInt("userId") ?: 0
-            val username = backStackEntry.arguments?.getString("username") ?: ""
-
+        // ---------------- ADMIN TRANSPORT (SIMPLE) ----------------
+        composable(Routes.ADMIN_TRANSPORT) {
             AdminTransportasiUi(
                 context = context,
                 onBackToHome = {
-                    nc.navigate("admin_home/$userId/$username") {
-                        popUpTo("admin_home/$userId/$username") { inclusive = true }
+                    nc.navigate(Routes.ADMIN_HOME) {
+                        popUpTo(Routes.ADMIN_HOME) { inclusive = true }
                     }
                 }
             )
         }
 
+        // ---------------- ADMIN USER (SIMPLE) ----------------
+        composable(Routes.ADMIN_USER) {
+            AdminUserUi(
+                onBackToHome = {
+                    nc.navigate(Routes.ADMIN_HOME) {
+                        popUpTo(Routes.ADMIN_HOME) { inclusive = true }
+                    }
+                }
+            )
+        }
 
-        // ---------------- USER HOME ----------------
+        // ---------------- ADMIN TRANSAKSI (SIMPLE) ----------------
+        composable(Routes.ADMIN_TRANSAKSI) {
+            AdminTransaksiUi(
+                onBackToHome = {
+                    nc.navigate(Routes.ADMIN_HOME) {
+                        popUpTo(Routes.ADMIN_HOME) { inclusive = true }
+                    }
+                }
+            )
+        }
+        // ---------------- USER HOME (MASIH BUTUH USER DATA) ----------------
         composable(
             route = Routes.USER_HOME,
             arguments = listOf(
@@ -146,21 +155,24 @@ fun AppNavHost(nc: NavHostController) {
                 id = userId,
                 username = finalUsername,
                 onGoToPesawat = {
-                    nc.navigate("listPesawat/$userId")
+                    nc.navigate("list_pesawat/$userId")
                 },
-                onGoToKereta = { nc.navigate("listKereta/$userId") },
+                onGoToKereta = {
+                    nc.navigate("list_kereta/$userId")
+                },
+                onGoToBooking = {
+                    nc.navigate("user_history/$userId")
+                },
                 onLogout = {
                     authVm.logout()
                     nc.navigate(Routes.LOGIN) {
                         popUpTo(0) { inclusive = true }
                     }
-                },
-                onGoToBooking = {
-                    nc.navigate("user_history/$userId")
                 }
             )
         }
 
+        // ---------------- USER HISTORY ----------------
         composable(
             route = Routes.USER_HISTORY,
             arguments = listOf(navArgument("userId") { type = NavType.IntType })
@@ -170,7 +182,6 @@ fun AppNavHost(nc: NavHostController) {
             UserHistoryBookingUi(
                 userId = userId,
                 onBackClick = {
-                    // Kembali ke user home dengan data yang sama
                     val username = userVm.selectedUser.value?.username ?: "User"
                     nc.navigate("user_home/$userId/$username") {
                         popUpTo("user_home/$userId/$username") { inclusive = true }
@@ -178,6 +189,7 @@ fun AppNavHost(nc: NavHostController) {
                 }
             )
         }
+
         // ---------------- LIST PESAWAT ----------------
         composable(
             route = Routes.LIST_PESAWAT,
@@ -187,7 +199,7 @@ fun AppNavHost(nc: NavHostController) {
             UserPesawatUi(
                 userId = userId,
                 onItemClick = { transportasi ->
-                    nc.navigate("detailPesawat/${transportasi.id}/$userId")
+                    nc.navigate("detail_pesawat/${transportasi.id}/$userId")
                 },
                 context = context
             )
@@ -216,7 +228,7 @@ fun AppNavHost(nc: NavHostController) {
                     pesawat = pesawat,
                     onBackClick = { nc.popBackStack() },
                     onBookingSuccess = { transaksiId, jumlah, totalHarga ->
-                        nc.navigate("detailBooking/$transaksiId/${pesawat.id}/$userId/$jumlah/$totalHarga")
+                        nc.navigate("detail_booking/$transaksiId/${pesawat.id}/$userId/$jumlah/$totalHarga")
                     }
                 )
             } else {
@@ -232,20 +244,23 @@ fun AppNavHost(nc: NavHostController) {
         }
 
         // ---------------- LIST KERETA ----------------
-        composable(Routes.LIST_KERETA,
+        composable(
+            route = Routes.LIST_KERETA,
             arguments = listOf(navArgument("userId"){ type = NavType.IntType })
         ) { backStackEntry ->
             val userId = backStackEntry.arguments?.getInt("userId") ?: 0
             UserKeretaUi(
                 userId = userId,
                 onItemClick = { kereta ->
-                    nc.navigate("detailKereta/${kereta.id}/$userId")
+                    nc.navigate("detail_kereta/${kereta.id}/$userId")
                 },
                 context = context
             )
         }
 
-        composable(Routes.DETAIL_KERETA,
+        // ---------------- DETAIL KERETA ----------------
+        composable(
+            route = Routes.DETAIL_KERETA,
             arguments = listOf(
                 navArgument("keretaId"){ type = NavType.IntType },
                 navArgument("userId"){ type = NavType.IntType }
@@ -254,13 +269,10 @@ fun AppNavHost(nc: NavHostController) {
             val keretaId = backStackEntry.arguments?.getInt("keretaId") ?: 0
             val userId = backStackEntry.arguments?.getInt("userId") ?: 0
 
-            // Tambahkan LaunchedEffect untuk load data
             LaunchedEffect(keretaId) {
                 transportasiVm.loadAll()
             }
             val transportasiList by transportasiVm.transportasiList.collectAsState()
-
-            // Pastikan filter jenis "Kereta" dan cari ID yang sesuai
             val kereta = transportasiList.find { it.id == keretaId && it.jenis == "Kereta" }
 
             if (kereta != null) {
@@ -269,7 +281,7 @@ fun AppNavHost(nc: NavHostController) {
                     kereta = kereta,
                     onBackClick = { nc.popBackStack() },
                     onBookingSuccess = { transaksiId, jumlah, totalHarga ->
-                        nc.navigate("detailBooking/$transaksiId/${kereta.id}/$userId/$jumlah/$totalHarga")
+                        nc.navigate("detail_booking/$transaksiId/${kereta.id}/$userId/$jumlah/$totalHarga")
                     }
                 )
             } else {
@@ -279,20 +291,17 @@ fun AppNavHost(nc: NavHostController) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text("Data kereta tidak ditemukan")
-                    Text("ID: $keretaId")
-                    Text("Total data: ${transportasiList.size}")
                     Button(onClick = { nc.popBackStack() }) { Text("Kembali") }
                 }
             }
         }
-        // ---------------- DETAIL BOOKING ----------------
 
-// Dan di NavHost, ganti bagian DETAIL_BOOKING menjadi:
+        // ---------------- DETAIL BOOKING ----------------
         composable(
             route = Routes.DETAIL_BOOKING,
             arguments = listOf(
                 navArgument("transaksiId") { type = NavType.IntType },
-                navArgument("transportId") { type = NavType.IntType }, // TRANSPORT ID YANG GENERIC
+                navArgument("transportId") { type = NavType.IntType },
                 navArgument("userId") { type = NavType.IntType },
                 navArgument("jumlah") { type = NavType.IntType },
                 navArgument("totalHarga") { type = NavType.FloatType }

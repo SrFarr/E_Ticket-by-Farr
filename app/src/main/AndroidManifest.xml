@@ -12,6 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.E_TicketPesawat_UTS">
         <activity
+            android:name=".ui.screen.ui.AdminScreen.AdminTransaksiScreen"
+            android:exported="false"
+            android:label="@string/title_activity_admin_transaksi_screen"
+            android:theme="@style/Theme.E_TicketPesawat_UTS" />
+        <activity
+            android:name=".ui.screen.ui.AdminScreen.AdminUserScreen"
+            android:exported="false"
+            android:label="@string/title_activity_admin_user_screen"
+            android:theme="@style/Theme.E_TicketPesawat_UTS" />
+        <activity
             android:name=".ui.screen.ui.UserScreen.UserDetailKeretaScreen"
             android:exported="false"
             android:label="@string/title_activity_user_detail_kereta_screen"

@@ -42,19 +42,15 @@ interface TransportasiDao {
         endDate: Long
     ): List<Transportasi>
 
-    // Query untuk mendapatkan semua transportasi berdasarkan jenis pesawat
     @Query("SELECT * FROM transportasi WHERE jenis = 'pesawat'")
     suspend fun getAllPesawat(): List<Transportasi>
 
-    // Query untuk mendapatkan semua transportasi berdasarkan jenis kereta
     @Query("SELECT * FROM transportasi WHERE jenis = 'kereta'")
     suspend fun getAllKereta(): List<Transportasi>
 
-    // Query untuk search pesawat berdasarkan tujuan
     @Query("SELECT * FROM transportasi WHERE jenis = 'pesawat' AND tujuan LIKE '%' || :tujuan || '%'")
     suspend fun searchPesawatByTujuan(tujuan: String): List<Transportasi>
 
-    // Query untuk search kereta berdasarkan tujuan
     @Query("SELECT * FROM transportasi WHERE jenis = 'kereta' AND tujuan LIKE '%' || :tujuan || '%'")
     suspend fun searchKeretaByTujuan(tujuan: String): List<Transportasi>
 
@@ -65,32 +61,6 @@ interface TransportasiDao {
     // Query untuk search kereta berdasarkan tanggal
     @Query("SELECT * FROM transportasi WHERE jenis = 'kereta' AND waktuBerangkat BETWEEN :startDate AND :endDate")
     suspend fun searchKeretaByTanggal(startDate: Long, endDate: Long): List<Transportasi>
-
-    // Query untuk search pesawat berdasarkan tanggal dan tujuan
-    @Query("""
-        SELECT * FROM transportasi 
-        WHERE jenis = 'pesawat' 
-        AND tujuan LIKE '%' || :tujuan || '%' 
-        AND waktuBerangkat BETWEEN :startDate AND :endDate
-    """)
-    suspend fun searchPesawatByTanggalAndTujuan(
-        tujuan: String,
-        startDate: Long,
-        endDate: Long
-    ): List<Transportasi>
-
-    // Query untuk search kereta berdasarkan tanggal dan tujuan
-    @Query("""
-        SELECT * FROM transportasi 
-        WHERE jenis = 'kereta' 
-        AND tujuan LIKE '%' || :tujuan || '%' 
-        AND waktuBerangkat BETWEEN :startDate AND :endDate
-    """)
-    suspend fun searchKeretaByTanggalAndTujuan(
-        tujuan: String,
-        startDate: Long,
-        endDate: Long
-    ): List<Transportasi>
 
     // Query untuk mendapatkan pesawat by ID
     @Query("SELECT * FROM transportasi WHERE jenis = 'pesawat' AND id = :id")

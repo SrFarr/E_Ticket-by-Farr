@@ -192,7 +192,7 @@ fun AdminHomeUI(
 
                     InfoCard(
                         title = "Manajemen Transportasi",
-                        description = "Kelola data pesawat dan jadwal",
+                        description = "Kelola data pesawat atau kereta dan jadwal",
                         icon = Icons.Default.AirplaneTicket,
                         iconColor = Color(0xFF2196F3),
                         onClick = {

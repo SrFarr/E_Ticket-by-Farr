@@ -12,4 +12,6 @@
     <string name="title_activity_user_history_booking_screen">UserHistoryBookingScreen</string>
     <string name="title_activity_user_kereta_screen">UserKeretaScreen</string>
     <string name="title_activity_user_detail_kereta_screen">UserDetailKeretaScreen</string>
+    <string name="title_activity_admin_user_screen">AdminUserScreen</string>
+    <string name="title_activity_admin_transaksi_screen">AdminTransaksiScreen</string>
 </resources>

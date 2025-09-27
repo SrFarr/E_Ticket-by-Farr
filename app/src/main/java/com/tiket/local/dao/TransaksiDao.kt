@@ -10,7 +10,6 @@ import com.tiket.local.entity.Transaksi
 
 @Dao
 interface TransaksiDao {
-    // ==== CRUD ====
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(transaksi: Transaksi): Long
 
@@ -29,13 +28,9 @@ interface TransaksiDao {
     @Query("SELECT * FROM transaksi WHERE id = :id")
     suspend fun getById(id: Int): Transaksi?
 
-    // ==== Query tambahan ====
-
-    // Riwayat transaksi user tertentu
     @Query("SELECT * FROM transaksi WHERE userId = :userId")
     suspend fun getByUserId(userId: Int): List<Transaksi>
 
-    // Cek transaksi berdasarkan kode booking
     @Query("SELECT * FROM transaksi WHERE kodeBooking = :kodeBooking LIMIT 1")
     suspend fun getByKodeBooking(kodeBooking: String): Transaksi?
 }
